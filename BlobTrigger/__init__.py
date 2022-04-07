@@ -10,6 +10,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(0, dir_path)
 
 from shared import metodos_respuesta
+from shared import metodos_pdf
 
 
 def main(myblob: func.InputStream):
@@ -38,77 +39,86 @@ def main(myblob: func.InputStream):
 
     form = myblob.read()
 
-    poller = form_recognizer_client.begin_recognize_custom_forms(
-        model_id=model_id_clasificador, form=form
-    )
+    logging.info(type(form))
 
-    result = poller.result()
+    ubicacion_nombre = myblob.name.find("/")
+    longitud_nombre = len(myblob.name)
+    nombre = myblob.name[ubicacion_nombre + 1 : longitud_nombre]
+    logging.info(nombre)
+    metodos_pdf.obtner_pdf(form, nombre)
+    metodos_pdf.dividir_pdf(nombre)
 
-    logging.info("RESULTADO")
+    # poller = form_recognizer_client.begin_recognize_custom_forms(
+    #     model_id=model_id_clasificador, form=form
+    # )
 
-    logging.info(result)
+    # result = poller.result()
 
-    for recognized_form in result:
-        logging.info("Form type: {}".format(recognized_form.form_type))
-        logging.info(
-            "Form type confidence: {}".format(recognized_form.form_type_confidence)
-        )
-        logging.info(
-            "Form was analyzed using model with ID: {}".format(recognized_form.model_id)
-        )
+    # logging.info("RESULTADO")
 
-    lista_de_valores = []
-    lista_de_score = []
-    lista_de_labels = []
-    lista_de_names = []
-    lista_de_paginas = []
+    # logging.info(result)
 
-    for item in recognized_form.fields.items():
-        valor_dato = item[1].value_data
-        if valor_dato is not None:
-            logging.info(valor_dato.page_number)
-            lista_de_paginas.append(valor_dato.page_number)
+    # for recognized_form in result:
+    #     logging.info("Form type: {}".format(recognized_form.form_type))
+    #     logging.info(
+    #         "Form type confidence: {}".format(recognized_form.form_type_confidence)
+    #     )
+    #     logging.info(
+    #         "Form was analyzed using model with ID: {}".format(recognized_form.model_id)
+    #     )
 
-    for name, field in recognized_form.fields.items():
-        logging.info(
-            "Field '{}' has label '{}' with value '{}' and a confidence"
-            " score of {}".format(
-                name,
-                field.label_data.text if field.label_data else name,
-                field.value,
-                field.confidence,
-            )
-        )
+    # lista_de_valores = []
+    # lista_de_score = []
+    # lista_de_labels = []
+    # lista_de_names = []
+    # lista_de_paginas = []
 
-        lista_de_names.append(name)
-        lista_de_valores.append(field.value)
-        lista_de_score.append(field.confidence)
-        lista_de_labels.append(field.label_data.text if field.label_data else name)
+    # for item in recognized_form.fields.items():
+    #     valor_dato = item[1].value_data
+    #     if valor_dato is not None:
+    #         logging.info(valor_dato.page_number)
+    #         lista_de_paginas.append(valor_dato.page_number)
 
-    lista_de_respuestas = metodos_respuesta.organizar_respuesta(
-        lista_de_valores,
-        lista_de_names,
-        lista_de_score,
-        lista_de_labels,
-    )
+    # for name, field in recognized_form.fields.items():
+    #     logging.info(
+    #         "Field '{}' has label '{}' with value '{}' and a confidence"
+    #         " score of {}".format(
+    #             name,
+    #             field.label_data.text if field.label_data else name,
+    #             field.value,
+    #             field.confidence,
+    #         )
+    #     )
 
-    # metodos_monitoreo.monitoreo_score(lista_de_respuestas, file_name, form)
+    #     lista_de_names.append(name)
+    #     lista_de_valores.append(field.value)
+    #     lista_de_score.append(field.confidence)
+    #     lista_de_labels.append(field.label_data.text if field.label_data else name)
 
-    respuesta = lista_de_respuestas
-    logging.info("respuesta")
-    logging.info(respuesta)
+    # lista_de_respuestas = metodos_respuesta.organizar_respuesta(
+    #     lista_de_valores,
+    #     lista_de_names,
+    #     lista_de_score,
+    #     lista_de_labels,
+    # )
 
-    numero_etiquetas = 0
-    for etiqueta in respuesta:
+    # # metodos_monitoreo.monitoreo_score(lista_de_respuestas, file_name, form)
 
-        valor = etiqueta["valor"]
-        score = etiqueta["score"]
+    # respuesta = lista_de_respuestas
+    # logging.info("respuesta")
+    # logging.info(respuesta)
 
-        if valor is not None and float(score) >= score_validar:
-            numero_etiquetas += 1
+    # numero_etiquetas = 0
+    # for etiqueta in respuesta:
 
-    logging.info(
-        f"Se encontraro {numero_etiquetas} de 3 etiquetas de notificacion, en la pagina {max(lista_de_paginas)}"
-    )
+    #     valor = etiqueta["valor"]
+    #     score = etiqueta["score"]
+
+    #     if valor is not None and float(score) >= score_validar:
+    #         numero_etiquetas += 1
+
+    # logging.info(
+    #     f"Se encontraro {numero_etiquetas} de 3 etiquetas de notificacion, en la pagina {max(lista_de_paginas)}"
+    # )
 
     # return func.HttpResponse(json.dumps(respuesta))
