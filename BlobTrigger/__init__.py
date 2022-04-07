@@ -1,7 +1,6 @@
 import logging
 import os
 import sys
-import json
 
 
 import azure.functions as func
@@ -22,12 +21,9 @@ def main(myblob: func.InputStream):
     )
     logging.info("OK prueba del AZURE FUNCTION")
 
-    # model_id = os.environ["MODEL_ID"]
-    model_id = "f058c150-99f7-4348-8bd1-eaa6386b4fdd"
-    # endpoint = os.environ["ENDPOINT"]
-    endpoint = "https://cog-rut-np-sentencias.cognitiveservices.azure.com/"
-    # azure_credential = os.environ["AZURE_CREDENTIAL"]
-    azure_credential = "2b507d0b0135482ba7438bd57d1169f0"
+    model_id = os.environ["MODEL_ID"]
+    endpoint = os.environ["ENDPOINT"]
+    azure_credential = os.environ["AZURE_CREDENTIAL"]
     credential = AzureKeyCredential(azure_credential)
     form_recognizer_client = FormRecognizerClient(endpoint, credential)
 
