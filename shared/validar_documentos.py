@@ -1,10 +1,18 @@
 import logging
 import os
+import sys
+
+dir_path = os.path.dirname(os.path.realpath(__file__))
+sys.path.insert(0, dir_path)
+
+from shared import metodos_storage
 
 
 def validar_notificacion(lista_de_respuestas, pagina):
     logging.info("VALIDAR NOTIFICACION")
-    score_validar = os.environ["SCORE_VALIDAR"]
+    score_validar = float(os.environ["SCORE_VALIDAR"])
+    etiquetas_validar = float(os.environ["NUMERO_ETIQUETAS_VALIDACION"])
+
     numero_etiquetas = 0
     for etiqueta in lista_de_respuestas:
 
@@ -14,11 +22,20 @@ def validar_notificacion(lista_de_respuestas, pagina):
         if valor is not None and float(score) >= float(score_validar):
             numero_etiquetas += 1
 
+        if (
+            valor is not None
+            and float(score) < score_validar
+            and numero_etiquetas >= etiquetas_validar
+        ):
+            logging.info(f"{pagina} - {valor} - {score}")
+            ruta = os.environ["CARPETA_PAGINAS"] + "//" + pagina
+            metodos_storage.cargar_pdf(pagina, ruta)
+
     logging.info(
         f"Se encontraro {numero_etiquetas} de 3 etiquetas de notificacion, en {pagina}"
     )
 
-    if numero_etiquetas >= 1:
+    if numero_etiquetas >= etiquetas_validar:
         logging.info("ES NOTIFICACION")
         return True
     else:

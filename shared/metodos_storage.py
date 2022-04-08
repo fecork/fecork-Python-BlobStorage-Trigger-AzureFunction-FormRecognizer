@@ -27,9 +27,7 @@ def crear_container():
     logging.info("Creando Contenedor")
 
     connection_string = os.environ["CONNECTION_STRING"]
-    container = ContainerClient.from_connection_string(
-        connection_string, "monitoreo"
-    )
+    container = ContainerClient.from_connection_string(connection_string, "monitoreo")
 
     try:
         container_properties = container.get_container_properties()
@@ -65,11 +63,9 @@ def agregar_entity(entity):
 
 def cargar_pdf(blob_name, blob):
     connection_string = os.environ["CONNECTION_STRING"]
-    blob_service_client = BlobServiceClient.from_connection_string(
-        connection_string
-    )
+    blob_service_client = BlobServiceClient.from_connection_string(connection_string)
     # crear_container()
-    container_name = "cedulasmonitoreo"
+    container_name = "notificadormonitoreo"
     path_container = "{}/{}".format(container_name, "datos reentrenamiento")
     file_name = blob_name
     blob_client = blob_service_client.get_blob_client(
