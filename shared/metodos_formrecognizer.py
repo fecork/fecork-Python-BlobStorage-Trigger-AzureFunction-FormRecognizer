@@ -36,10 +36,6 @@ def reconocer(form, modelo):
 
     result = poller.result()
 
-    logging.info("RESULTADO")
-
-    logging.info(result)
-
     for recognized_form in result:
         logging.info("Form type: {}".format(recognized_form.form_type))
         logging.info(

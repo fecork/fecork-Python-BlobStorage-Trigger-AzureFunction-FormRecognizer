@@ -18,16 +18,15 @@ def dividir_pdf(doc_name):
     carpeta_paginas = os.environ["CARPETA_PAGINAS"]
     ruta = carpeta_notificaciones + "//" + str(doc_name)
     pdf_reader = PdfFileReader(open(ruta, "rb"))
-    pdf_writer = PdfFileWriter()
     page_num = pdf_reader.getNumPages()
-    logging.info(page_num)
 
     for page in range(page_num):
+        pdf_reader = PdfFileReader(open(ruta, "rb"))
+        pdf_writer = PdfFileWriter()
         logging.info(f"pagina {page}")
         pdf_writer.addPage(pdf_reader.getPage(page))
         extension = "_" + str(page) + ".pdf"
         file_name = doc_name.replace(".pdf", extension)
         ruta_paginas = carpeta_paginas + "//" + file_name
-        file = open(ruta_paginas, "wb")
-        pdf_writer.write(file)
-        pdf_writer = PdfFileWriter()
+        with open(ruta_paginas, "wb") as f:
+            pdf_writer.write(f)

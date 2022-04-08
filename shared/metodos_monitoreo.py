@@ -12,7 +12,6 @@ from shared import metodos_storage
 def monitoreo_score(lista_de_respuestas, file_name, form):
     score_monitor = os.environ["SCORE_MONITOR"]
     for respuestas in lista_de_respuestas:
-        logging.info(respuestas["score"])
         if float(respuestas["score"]) < float(score_monitor):
             print("se envía a la base de datos")
             entity = {

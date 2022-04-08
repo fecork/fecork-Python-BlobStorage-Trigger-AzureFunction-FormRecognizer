@@ -15,7 +15,6 @@ def iterar_pdf_paginas(lista_paginas, carpeta_paginas):
 
     for pagina in lista_paginas:
         ruta_paginas = carpeta_paginas + "//" + pagina
-        logging.info(ruta_paginas)
         with open(ruta_paginas, "rb") as fd:
             form = fd.read()
 
