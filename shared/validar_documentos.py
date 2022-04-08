@@ -1,17 +1,17 @@
 import logging
+import os
 
 
 def validar_notificacion(lista_de_respuestas, pagina):
     logging.info("VALIDAR NOTIFICACION")
-    # score_validar = os.environ["SCORE_VALIDAR"]
-    score_validar = 0.3
+    score_validar = os.environ["SCORE_VALIDAR"]
     numero_etiquetas = 0
     for etiqueta in lista_de_respuestas:
 
         valor = etiqueta["valor"]
         score = etiqueta["score"]
 
-        if valor is not None and float(score) >= score_validar:
+        if valor is not None and float(score) >= float(score_validar):
             numero_etiquetas += 1
 
     logging.info(

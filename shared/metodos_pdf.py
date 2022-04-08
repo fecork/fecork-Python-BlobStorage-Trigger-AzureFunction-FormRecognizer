@@ -6,8 +6,7 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 
 
 def obtener_pdf(str64, file_name):
-    # carpeta_notificaciones = os.environ["CARPETA_NOTIFICACIONES"]
-    carpeta_notificaciones = "notificaciones"
+    carpeta_notificaciones = os.environ["CARPETA_NOTIFICACIONES"]
     ruta = carpeta_notificaciones + "//" + file_name
     logging.info(f"guardando en {ruta}")
     with open(ruta, "wb") as f:
@@ -15,11 +14,8 @@ def obtener_pdf(str64, file_name):
 
 
 def dividir_pdf(doc_name):
-    # carpeta_notificaciones=os.environ["CARPETA_NOTIFICACIONES"]
-    # carpeta_paginas=os.environ["CARPETA_PAGINAS"]
-
-    carpeta_paginas = "paginas"
-    carpeta_notificaciones = "notificaciones"
+    carpeta_notificaciones = os.environ["CARPETA_NOTIFICACIONES"]
+    carpeta_paginas = os.environ["CARPETA_PAGINAS"]
     ruta = carpeta_notificaciones + "//" + str(doc_name)
     pdf_reader = PdfFileReader(open(ruta, "rb"))
     pdf_writer = PdfFileWriter()
@@ -35,9 +31,3 @@ def dividir_pdf(doc_name):
         file = open(ruta_paginas, "wb")
         pdf_writer.write(file)
         pdf_writer = PdfFileWriter()
-
-
-# def iterar_pdf_paginas():
-#     carpeta_paginas = "paginas"
-#     lista_paginas = os.listdir(carpeta_paginas)
-#     for pagina in lista_paginas:

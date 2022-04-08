@@ -13,10 +13,8 @@ from shared import metodos_respuesta
 
 def iniciar_sesion():
 
-    # endpoint = os.environ["ENDPOINT"]
-    endpoint = "https://cog-rut-np-sentencias.cognitiveservices.azure.com/"
-    # azure_credential = os.environ["AZURE_CREDENTIAL"]
-    azure_credential = "2b507d0b0135482ba7438bd57d1169f0"
+    endpoint = os.environ["ENDPOINT"]
+    azure_credential = os.environ["AZURE_CREDENTIAL"]
     credential = AzureKeyCredential(azure_credential)
     form_recognizer_client = FormRecognizerClient(endpoint, credential)
     return form_recognizer_client
@@ -24,14 +22,11 @@ def iniciar_sesion():
 
 def reconocer(form, modelo):
 
-    # model_id_clasificador = os.environ["MODEL_ID_CLASIFICADOR"]
     if modelo == "clasificar":
-        model_id = "f058c150-99f7-4348-8bd1-eaa6386b4fdd"
-        # model_id = os.environ["MODEL_ID_CLASIFICADOR"]
+        model_id = os.environ["MODEL_ID_CLASIFICADOR"]
 
     if modelo == "extraccion":
-        model_id = "e651d5ee-565f-49cb-86f6-72fbc105bbaa"
-        # model_id = os.environ["MODEL_ID_EXTRACCION"]
+        model_id = os.environ["MODEL_ID_EXTRACCION"]
 
     form_recognizer_client = iniciar_sesion()
 

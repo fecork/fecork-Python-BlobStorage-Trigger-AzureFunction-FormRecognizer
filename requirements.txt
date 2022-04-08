@@ -6,3 +6,5 @@ azure-functions
 azure-ai-formrecognizer
 azure-core
 PyPDF2
+azure-data-tables==12.3.0
+azure-storage-blob
