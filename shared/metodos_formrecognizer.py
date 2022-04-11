@@ -2,7 +2,6 @@ import logging
 import os
 import sys
 
-from azure.ai.formrecognizer import FormRecognizerClient
 from azure.ai.formrecognizer import DocumentAnalysisClient
 from azure.core.credentials import AzureKeyCredential
 
@@ -17,7 +16,6 @@ def iniciar_sesion():
     endpoint = os.environ["ENDPOINT"]
     azure_credential = os.environ["AZURE_CREDENTIAL"]
     credential = AzureKeyCredential(azure_credential)
-    # form_recognizer_client = FormRecognizerClient(endpoint, credential)
     form_recognizer_client = DocumentAnalysisClient(endpoint, credential)
     return form_recognizer_client
 
@@ -25,7 +23,6 @@ def iniciar_sesion():
 def reconocer(form, modelo):
 
     if modelo == "clasificar":
-        logging.info("CLASIFICAR")
         model_id = os.environ["MODEL_ID_CLASIFICADOR"]
 
     if modelo == "extraccion":
@@ -33,19 +30,11 @@ def reconocer(form, modelo):
 
     form_recognizer_client = iniciar_sesion()
 
-    # poller = form_recognizer_client.begin_recognize_custom_forms(
-    #     model_id=model_id, form=form
-    # )
-
     poller = form_recognizer_client.begin_analyze_document(
         model=model_id, document=form
     )
 
     result = poller.result()
-
-    logging.info("?????????????")
-    logging.info(result.documents)
-    logging.info("?????????????")
 
     for idx, document in enumerate(result.documents):
         logging.info("--------Analyzing document #{}--------".format(idx + 1))
@@ -62,17 +51,7 @@ def reconocer(form, modelo):
             )
         )
 
-    # for recognized_form in result:
-    #     logging.info("Form type: {}".format(recognized_form.form_type))
-    #     logging.info(
-    #         "Form type confidence: {}".format(recognized_form.form_type_confidence)
-    #     )
-    #     logging.info(
-    #         "Form was analyzed using model with ID: {}".format(recognized_form.model_id)
-    #     )
-
     return document
-    # return recognized_form
 
 
 def enlistar(recognized_form):
@@ -88,8 +67,6 @@ def enlistar(recognized_form):
             " score of {}".format(
                 name,
                 name,
-                # field.content,
-                # field.label_data.text if field.label_data else name,
                 field.value,
                 field.confidence,
             )

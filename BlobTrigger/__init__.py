@@ -13,11 +13,14 @@ from shared import metodos_pdf
 
 
 def main(myblob: func.InputStream):
+    logging.info("====================================================")
     logging.info(
-        f"Python blob trigger function processed blob \n"
+        f"Se detecta nuevo archivo en el blob \n"
         f"Nombre: {myblob.name}\n"
         f"Blob Size: {myblob.length} bytes"
     )
+    logging.info("====================================================")
+
     carpeta_paginas = os.environ["CARPETA_PAGINAS"]
     carpeta_notificaciones = os.environ["CARPETA_NOTIFICACIONES"]
 

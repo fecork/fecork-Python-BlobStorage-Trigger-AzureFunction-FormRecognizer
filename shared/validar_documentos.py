@@ -36,8 +36,8 @@ def validar_notificacion(lista_de_respuestas, pagina):
     )
 
     if numero_etiquetas >= etiquetas_validar:
-        logging.info("ES NOTIFICACION")
+        logging.info(f"el archivo {pagina} ES NOTIFICACION")
         return True
     else:
-        logging.info("NO ES NOTIFICACION")
+        logging.info(f"el archivo {pagina} NO ES NOTIFICACION")
         return False

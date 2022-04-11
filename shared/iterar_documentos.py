@@ -49,10 +49,6 @@ def crear_entity(lista_de_respuestas, pagina):
         "fecha_notificacion",
     ]
 
-    logging.info("[][][][][][][][][][")
-    logging.info(lista_de_respuestas)
-    logging.info("[][][][][][][][][][")
-
     for respuesta in lista_de_respuestas:
         for key in lista_keys:
             if respuesta["label"] == key:
@@ -61,6 +57,7 @@ def crear_entity(lista_de_respuestas, pagina):
     entity["PartitionKey"] = pagina
     entity["RowKey"] = entity["tipo_notificacion"]
 
+    logging.info("Valores Extraidos")
     logging.info("+-+-+-+-+-+")
     logging.info(entity)
     logging.info("+-+-+-+-+-+")
