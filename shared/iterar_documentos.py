@@ -49,6 +49,10 @@ def crear_entity(lista_de_respuestas, pagina):
         "fecha_notificacion",
     ]
 
+    logging.info("[][][][][][][][][][")
+    logging.info(lista_de_respuestas)
+    logging.info("[][][][][][][][][][")
+
     for respuesta in lista_de_respuestas:
         for key in lista_keys:
             if respuesta["label"] == key:
