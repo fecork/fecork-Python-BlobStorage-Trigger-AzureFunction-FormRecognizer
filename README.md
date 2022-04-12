@@ -51,6 +51,23 @@ _ejecutar el código_
 func host start
 ```
 
+## Variables de entorno
+
+para probarla de forma local se configura el archivo **local.setting.json**, desplegado se configura en **configuraciones** de azure function
+
+```json
+    "AzureWebJobsStorage": String de conexión al Azure Storage
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "stsentencias_STORAGE": String de conexión al Azure Storage
+    "TABLE_NAME":"notificacionesValoresExtraidos", Tabla donde guardamos la información extraida
+    "MODEL_ID_CLASIFICADOR":"notificaciones_clasificacion",
+    "MODEL_ID_EXTRACCION": "notificaciones_extraer_informacion",
+    "ENDPOINT":"https://endpoint.cognitiveservices.azure.com/", Endpoint del Cognitive Service
+    "AZURE_CREDENTIAL": Credenciales del Cognitive Service
+    "SCORE_VALIDAR":0.7, Score para validar los resultados de Form Recognizer
+    "CONNECTION_STRING": String de conexión al Azure Storage
+    "NUMERO_ETIQUETAS_VALIDACION":1, Número de etiquetas a encontrar para validar la notificación
+```
 
 ## Ejecutando las pruebas ⚙️
 
