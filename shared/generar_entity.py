@@ -18,10 +18,13 @@ def crear_entity(lista_de_respuestas, pagina):
             if respuesta["label"] == key:
                 entity[key] = respuesta["valor"]
 
-    entity["PartitionKey"] = pagina
-    entity["RowKey"] = entity["tipo_notificacion"]
-
     entity = limpiar_entity(entity)
+
+    entity["PartitionKey"] = pagina
+    if entity["tipo_notificacion"]:
+        entity["RowKey"] = entity["tipo_notificacion"]
+    else:
+        entity["RowKey"] = "SIN TIPO"
 
     logging.info("Valores Extraidos")
     logging.info("+-+-+-+-+-+")
@@ -32,6 +35,21 @@ def crear_entity(lista_de_respuestas, pagina):
 
 
 def limpiar_entity(entity):
-    entity["nombre_notificado"] = re.sub(r"[^A-Z\s+]", "", entity["nombre_notificado"])
-    entity["cedula_notificado"] = re.sub(r"[^0-9]", "", entity["cedula_notificado"])
+    if entity["nombre_notificado"]:
+        entity["nombre_notificado"] = entity["nombre_notificado"].upper()
+        lista_stops = ["EL", "LA", "SEÑOR", "SEÑORA"]
+        for palabra in lista_stops:
+            entity["nombre_notificado"] = entity["nombre_notificado"].replace(
+                palabra, ""
+            )
+        # entity["nombre_notificado"] = re.sub(r"[^A-Z\s+]", "", entity["nombre_notificado"])
+
+    if entity["cedula_notificado"]:
+        entity["cedula_notificado"] = re.sub(r"[^0-9]", "", entity["cedula_notificado"])
+
+    if entity["tipo_notificacion"]:
+        entity["tipo_notificacion"] = re.sub(
+            r"[^A-Z\s+]", "", entity["tipo_notificacion"]
+        )
+        entity["tipo_notificacion"] = entity["tipo_notificacion"].upper()
     return entity

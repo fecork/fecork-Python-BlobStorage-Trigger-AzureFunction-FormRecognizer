@@ -42,3 +42,6 @@ def main(myblob: func.InputStream):
     iterar_documentos.iterar_pdf_paginas(lista_paginas, carpeta_paginas)
     limpiar_ficheros.eliminar_archivos(carpeta_paginas)
     limpiar_ficheros.eliminar_archivos(carpeta_notificaciones)
+    logging.warning("====================================================")
+    logging.warning(f"Proceso de busqueda terminado para el documento {myblob.name}\n")
+    logging.warning("====================================================")

@@ -14,8 +14,21 @@ from shared import generar_entity
 
 def iterar_pdf_paginas(lista_paginas, carpeta_paginas):
 
-    for pagina in lista_paginas:
-        ruta_paginas = carpeta_paginas + "//" + pagina
+    formato = ".pdf"
+    separador = "_"
+    lista_busqueda = []
+
+    for valor in lista_paginas:
+        if formato in valor and separador in valor:
+            lista_busqueda.append(valor)
+
+    logging.info(f"Lista de archivos a buscar: {lista_busqueda}")
+    for pagina in lista_busqueda:
+        logging.info(lista_busqueda)
+        logging.info(carpeta_paginas)
+        logging.info(pagina)
+        ruta_paginas = carpeta_paginas + "/" + pagina
+        logging.info(ruta_paginas)
         with open(ruta_paginas, "rb") as fd:
             form = fd.read()
 
