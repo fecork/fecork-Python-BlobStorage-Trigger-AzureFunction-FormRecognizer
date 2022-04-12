@@ -43,7 +43,7 @@ def iterar_pdf_paginas(lista_paginas, carpeta_paginas):
         )
 
         if es_notificacion:
-            logging.info("ES NOTIFICACION, SE EXTRAE INFORMACION")
+            logging.warning("ES NOTIFICACION, SE EXTRAE INFORMACION")
             lista_de_respuestas = metodos_formrecognizer.consultar_modelo(
                 form, "extraccion"
             )
