@@ -3,7 +3,7 @@
 # Manually managing azure-functions-worker may cause unexpected issues
 
 azure-functions
-azure-ai-formrecognizer
+azure-ai-formrecognizer==3.2.0b4
 azure-core
 PyPDF2
 azure-data-tables==12.3.0
